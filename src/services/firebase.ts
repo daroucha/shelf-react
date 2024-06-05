@@ -2,13 +2,13 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBk79gJ5oB32cjuQD7Bmnso1Dx3UzC8kxI",
-  authDomain: "shelf-web-app.firebaseapp.com",
-  projectId: "shelf-web-app",
-  storageBucket: "shelf-web-app.appspot.com",
-  messagingSenderId: "722554166893",
-  appId: "1:722554166893:web:bf4a6049450af691702964",
-  measurementId: "G-NSD1VYMBZW"
+  apiKey: process.env.API_KEY,
+  authDomain: process.env.AUTH_DOMAIN,
+  projectId: process.env.PROJECT_ID,
+  storageBucket: process.env.STORAGE_BUCKET,
+  messagingSenderId: process.env.MESSAGING_SENDER_ID,
+  appId: process.env.APP_ID,
+  measurementId: process.env.MEASUREMENT_ID
 };
 
 const app = initializeApp(firebaseConfig);
