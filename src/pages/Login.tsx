@@ -1,11 +1,34 @@
-import { ActionButton, Alert, TextInput } from 'remaster-ui'
+import {
+  ActionButton,
+  Alert,
+  BaseImage,
+  IconButton,
+  TextInput,
+} from 'remaster-ui'
 import {
   Envelope,
+  Eye,
+  EyeClosed,
+  Icon,
   Lock,
   Warning,
 } from '@phosphor-icons/react'
 import { useState } from 'react'
 import { useLogin } from '../hooks/useLogin'
+import LoginTitle from '../components/Login/LoginTitle'
+import LoginBox from '../components/Login/LoginBox'
+import LoginForm from '../components/Login/LoginForm'
+import LoginCta from '../components/Login/LoginCta'
+import { Link } from 'react-router-dom'
+import LoginBillboard from '../components/Login/LoginBillboard'
+
+const components: {
+  password: Icon
+  text: Icon
+} = {
+  password: Eye,
+  text: EyeClosed,
+}
 
 function Login() {
   const errorFallback = {
@@ -49,6 +72,15 @@ function Login() {
     })
   }
 
+  const [type, setType] = useState<'text' | 'password'>('password')
+
+  const handlePasswordToggle = (event: React.MouseEvent<Element>) => {
+    event.preventDefault()
+    setType(type === 'password' ? 'text' : 'password')
+  }
+
+  const Icon = components[type]
+
   const { login, isPending } = useLogin()
 
   const handleLogin = (event: React.FormEvent) => {
@@ -65,50 +97,72 @@ function Login() {
   }
 
   return (
-    <main>
-      <h1>Login</h1>
+    <>
+      <LoginBillboard>
+        <BaseImage src="./cover.png" alt="Shelf" />
+      </LoginBillboard>
 
-      {error.status && (
-        <Alert
-          leading={<Warning />}
-          title="Algo deu errado"
-          text={error.message}
-          timer={4}
-          onTimeout={handleTimeout}
-        />
-      )}
+      <LoginBox>
+        <LoginTitle as="h1">Faça login em sua conta</LoginTitle>
 
-      <form onSubmit={handleLogin}>
-        <TextInput
-          label="E-mail"
-          leading={<Envelope />}
-          name="email"
-          onChange={handleEmail}
-          placeholder="E-mail"
-          required
-          type="text"
-          value={user.email}
-        />
+        {error.status && (
+          <Alert
+            leading={<Warning />}
+            title="Algo deu errado"
+            text={error.message}
+            timer={4}
+            onTimeout={handleTimeout}
+          />
+        )}
 
-        <TextInput
-          label="Senha"
-          leading={<Lock />}
-          name="password"
-          onChange={handlePassword}
-          placeholder="Senha"
-          required
-          type="password"
-          value={user.password}
-        />
+        <LoginForm onSubmit={handleLogin}>
+          <LoginForm.Fields>
+            <TextInput
+              label="E-mail"
+              leading={<Envelope />}
+              name="email"
+              onChange={handleEmail}
+              placeholder="E-mail"
+              required
+              type="text"
+              value={user.email}
+            />
 
-        <ActionButton
-          variant="primary"
-          text="Entrar"
-          size="medium"
-          loading={isPending}
-        />
-      </form>
-    </main>
+            <TextInput
+              label="Senha"
+              leading={<Lock />}
+              name="password"
+              onChange={handlePassword}
+              placeholder="Senha"
+              required
+              type={type}
+              value={user.password}
+              trailing={
+                <IconButton
+                  leading={<Icon />}
+                  size="small"
+                  onClick={handlePasswordToggle}
+                />
+              }
+            />
+          </LoginForm.Fields>
+
+          <LoginForm.Actions>
+            <ActionButton
+              variant="primary"
+              text="Entrar"
+              size="medium"
+              loading={isPending}
+            />
+
+            <LoginCta>
+              Não tem uma conta?
+              <Link to="/sign-up">Crie uma agora</Link>
+            </LoginCta>
+          </LoginForm.Actions>
+        </LoginForm>
+      </LoginBox>
+    </>
   )
 }
 

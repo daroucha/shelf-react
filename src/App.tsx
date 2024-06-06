@@ -20,6 +20,8 @@ import AppToasts from './components/Common/AppToasts'
 import Explore from './pages/Explore'
 import Login from './pages/Login'
 
+import './assets/styles/reset.css'
+
 setup(React.createElement)
 
 const queryClient = new QueryClient({
@@ -39,10 +41,7 @@ function App() {
 
       <BrowserRouter>
         <Routes>
-          <Route
-            index
-            element={<Navigate replace to="explore" />}
-          />
+          <Route index element={<Navigate replace to="explore" />} />
 
           {/* UnAuthenticated Layout Routes */}
           <Route element={<UnAuthLayout />}>
