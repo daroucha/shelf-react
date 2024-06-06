@@ -1,10 +1,6 @@
-import type { UserCredential } from "firebase/auth"
-
-interface UserType extends UserCredential {
+export default interface UserType {
   _id: string
   name: string
   email: string
   status: 'on' | 'off'
 }
-
-export default UserType

@@ -1,6 +1,9 @@
 import { auth } from '../services/firebase'
 import { signOut } from 'firebase/auth'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import {
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 
 export function useLogout() {

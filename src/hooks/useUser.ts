@@ -8,10 +8,12 @@ interface UserQueryType {
 }
 
 export function useUser() {
-  const { isLoading, data: user }: UserQueryType = useQuery({
-    queryKey: ['user'],
-    queryFn: getCurrentUser,
-  })
+  const { isLoading, data: user }: UserQueryType = useQuery(
+    {
+      queryKey: ['user'],
+      queryFn: getCurrentUser,
+    }
+  )
 
   return {
     isLoading,

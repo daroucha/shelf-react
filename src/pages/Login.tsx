@@ -1,12 +1,31 @@
+import { ActionButton, Alert, TextInput } from 'remaster-ui'
 import {
-  ActionButton,
-  TextInput,
-} from '@daroucha/master-ui'
-import { Envelope, Lock } from '@phosphor-icons/react'
+  Envelope,
+  Lock,
+  Warning,
+} from '@phosphor-icons/react'
 import { useState } from 'react'
 import { useLogin } from '../hooks/useLogin'
 
 function Login() {
+  const errorFallback = {
+    status: false,
+    message: '',
+  }
+
+  const [error, setError] = useState(errorFallback)
+
+  const handleError = (message: string) => {
+    setError({
+      status: true,
+      message,
+    })
+  }
+
+  const handleTimeout = () => {
+    setError(errorFallback)
+  }
+
   const [user, setUser] = useState({
     email: '',
     password: '',
@@ -38,14 +57,8 @@ function Login() {
     login(
       { email: user.email, password: user.password },
       {
-        onSettled: () => {
-          setUser({
-            email: user.email,
-            password: '',
-          })
-        },
-        onError: (error) => {
-          console.log(error)
+        onError: (err) => {
+          handleError(err?.message)
         },
       }
     )
@@ -54,6 +67,16 @@ function Login() {
   return (
     <main>
       <h1>Login</h1>
+
+      {error.status && (
+        <Alert
+          leading={<Warning />}
+          title="Algo deu errado"
+          text={error.message}
+          timer={4}
+          onTimeout={handleTimeout}
+        />
+      )}
 
       <form onSubmit={handleLogin}>
         <TextInput
