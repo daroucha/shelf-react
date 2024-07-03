@@ -3,4 +3,5 @@ export default interface UserType {
   name: string
   email: string
   status: 'on' | 'off'
+  picture?: string
 }

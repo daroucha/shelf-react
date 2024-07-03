@@ -4,6 +4,7 @@ import {
   BaseImage,
   IconButton,
   TextInput,
+  Link,
 } from 'remaster-ui'
 import {
   Envelope,
@@ -19,7 +20,7 @@ import LoginTitle from '../components/Login/LoginTitle'
 import LoginBox from '../components/Login/LoginBox'
 import LoginForm from '../components/Login/LoginForm'
 import LoginCta from '../components/Login/LoginCta'
-import { Link } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
 import LoginBillboard from '../components/Login/LoginBillboard'
 
 const components: {
@@ -157,7 +158,9 @@ function Login() {
 
             <LoginCta>
               Não tem uma conta?
-              <Link to="/sign-up">Crie uma agora</Link>
+              <Link as={RouterLink} to="/sign-up">
+                Crie uma agora
+              </Link>
             </LoginCta>
           </LoginForm.Actions>
         </LoginForm>

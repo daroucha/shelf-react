@@ -1,4 +1,4 @@
-import { NavLink } from 'remaster-ui'
+import { Link } from 'remaster-ui'
 import { useUser } from '../hooks/useUser'
 import { useLogout } from '../hooks/useLogout'
 
@@ -11,9 +11,9 @@ function Explore() {
       <h1>Explorar</h1>
 
       {isAuthenticated && (
-        <NavLink size="medium" onClick={logout}>
+        <Link size="medium" onClick={logout}>
           Sair
-        </NavLink>
+        </Link>
       )}
 
       <hr />

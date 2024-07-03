@@ -17,6 +17,7 @@ import UnAuthLayout from './layouts/UnAuthLayout'
 import RouteGuard from './components/Common/RouteGuard'
 import AppToasts from './components/Common/AppToasts'
 
+import Profile from './pages/Profile/Account'
 import Explore from './pages/Explore'
 import Login from './pages/Login'
 
@@ -61,7 +62,7 @@ function App() {
               </RouteGuard>
             }
           >
-            <Route path="profile" />
+            <Route path="profile/account" element={<Profile />} />
           </Route>
         </Routes>
       </BrowserRouter>
