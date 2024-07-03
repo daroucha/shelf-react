@@ -4,4 +4,6 @@ export default interface UserType {
   email: string
   status: 'on' | 'off'
   picture?: string
+  bio?: string
+  location?: string
 }

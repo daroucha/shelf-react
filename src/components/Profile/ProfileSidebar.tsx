@@ -13,6 +13,7 @@ interface PropsProfileSidebar {
   children: React.ReactNode
   title?: string
   text?: string
+  followers: string
 }
 
 function ProfileSidebar({
@@ -20,6 +21,7 @@ function ProfileSidebar({
   children,
   title,
   text,
+  followers,
 }: PropsProfileSidebar) {
   return (
     <ViewSidebar>
@@ -37,7 +39,7 @@ function ProfileSidebar({
             <ProfileText>{text}</ProfileText>
           </div>
 
-          <ListComponent leading={<User />} title="32 seguidores" />
+          <ListComponent leading={<User />} title={followers} />
         </ViewSidebarTitle>
 
         <ViewSidebarNavigation>{children}</ViewSidebarNavigation>
