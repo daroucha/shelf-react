@@ -14,13 +14,14 @@ import {
   UserCircle,
 } from '@phosphor-icons/react'
 import { useLogout } from '../../hooks/useLogout'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 function AppHeader() {
   const { isAuthenticated, user } = useUser()
   const { logout } = useLogout()
 
   const navigate = useNavigate()
+  const location = useLocation()
 
   return (
     <Header logo="Shelf">
@@ -30,6 +31,7 @@ function AppHeader() {
           size="medium"
           leading={<Collection />}
           onClick={() => navigate('/collections/me')}
+          active={location.pathname === '/collections/me'}
         />
       )}
 
@@ -38,6 +40,7 @@ function AppHeader() {
         size="medium"
         leading={<Compass />}
         onClick={() => navigate('/explore')}
+        active={location.pathname === '/explore'}
       />
 
       {isAuthenticated && user && (
@@ -47,6 +50,7 @@ function AppHeader() {
             size="medium"
             leading={<Heart />}
             onClick={() => navigate('/favorites')}
+            active={location.pathname === '/favorites'}
           />
 
           <Dropdown>

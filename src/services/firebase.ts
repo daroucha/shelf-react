@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app'
-import { getAuth } from 'firebase/auth'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import type { User } from 'firebase/auth'
 import { getStorage } from 'firebase/storage'
 
 const firebaseConfig = {
@@ -15,6 +16,41 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 
 export const auth = getAuth(app)
+
 export const storage = getStorage(app)
+
+export const getFirebaseUser = async () => {
+  return new Promise((resolve, reject) => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        resolve(user)
+      } else {
+        reject('No User Found')
+      }
+    })
+  })
+}
+
+export const getFirebaseToken = async () => {
+  const sessionToken = sessionStorage.getItem('token')
+
+  if (sessionToken) {
+    return sessionToken
+  }
+
+  try {
+    const user = (await getFirebaseUser()) as User
+
+    if (!user) {
+      return null
+    }
+
+    const token = await user.getIdToken()
+
+    return token
+  } catch (error) {
+    return null
+  }
+}
 
 export default app

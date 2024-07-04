@@ -3,16 +3,12 @@ import {
   ref,
   uploadBytesResumable,
 } from 'firebase/storage'
-import { storage } from './firebase'
+import { getFirebaseToken, storage } from './firebase'
 import api from './api'
 import type { AxiosResponse } from 'axios'
 
 export const uploadUserAvatar = async (file: File) => {
-  const sessionToken = sessionStorage.getItem('token')
-
-  if (!sessionToken) {
-    return null
-  }
+  const token = await getFirebaseToken()
 
   try {
     const storageRef = ref(storage, `/avatars/${file.name}`)
@@ -27,7 +23,7 @@ export const uploadUserAvatar = async (file: File) => {
       },
       {
         headers: {
-          Authorization: `Bearer ${sessionToken}`,
+          Authorization: `Bearer ${token}`,
         },
       }
     )
@@ -43,11 +39,7 @@ export const updateUserDetails = async (
   bio?: string,
   location?: string
 ) => {
-  const sessionToken = sessionStorage.getItem('token')
-
-  if (!sessionToken) {
-    return null
-  }
+  const token = await getFirebaseToken()
 
   try {
     const { data: response }: AxiosResponse = await api.put(
@@ -59,7 +51,7 @@ export const updateUserDetails = async (
       },
       {
         headers: {
-          Authorization: `Bearer ${sessionToken}`,
+          Authorization: `Bearer ${token}`,
         },
       }
     )

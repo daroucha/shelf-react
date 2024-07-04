@@ -1,11 +1,12 @@
 import type { AxiosError, AxiosResponse } from 'axios'
 import api from './api'
 import toast from 'react-hot-toast'
+import { getFirebaseToken } from './firebase'
 
-export async function getCurrentUser() {
-  const sessionToken = sessionStorage.getItem('token')
+export const getCurrentUser = async () => {
+  const token = await getFirebaseToken()
 
-  if (!sessionToken) {
+  if (!token) {
     return null
   }
 
@@ -14,7 +15,7 @@ export async function getCurrentUser() {
       '/api/v1/auth/me',
       {
         headers: {
-          Authorization: `Bearer ${sessionToken}`,
+          Authorization: `Bearer ${token}`,
         },
       }
     )
