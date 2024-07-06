@@ -23,6 +23,7 @@ import Explore from './pages/Explore'
 import Login from './pages/Login'
 
 import './assets/styles/reset.css'
+import SignUp from './pages/SignUp'
 
 setup(React.createElement)
 
@@ -48,6 +49,7 @@ function App() {
           {/* UnAuthenticated Layout Routes */}
           <Route element={<UnAuthLayout />}>
             <Route path="login" element={<Login />} />
+            <Route path="sign-up" element={<SignUp />} />
           </Route>
 
           {/* Authenticated Layout Routes */}

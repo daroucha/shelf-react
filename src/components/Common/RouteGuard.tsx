@@ -12,8 +12,6 @@ function RouteGuard({ children }: PropsRouteGuard) {
 
   const { isAuthenticated, isLoading } = useUser()
 
-  console.log(isAuthenticated, isLoading)
-
   useEffect(() => {
     if (!isAuthenticated && !isLoading) {
       navigate('/login')

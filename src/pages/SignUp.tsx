@@ -1,27 +1,27 @@
 import {
   ActionButton,
   Alert,
-  BaseImage,
   IconButton,
-  TextInput,
   Link,
+  TextInput,
 } from 'remaster-ui'
+import LoginBillboard from '../components/Login/LoginBillboard'
+import LoginBox from '../components/Login/LoginBox'
+import LoginForm from '../components/Login/LoginForm'
+import LoginTitle from '../components/Login/LoginTitle'
 import {
   Envelope,
   Eye,
   EyeClosed,
   Icon,
-  Lock,
+  User,
   Warning,
+  Lock,
 } from '@phosphor-icons/react'
 import { useState } from 'react'
-import { useLogin } from '../hooks/useLogin'
-import LoginTitle from '../components/Login/LoginTitle'
-import LoginBox from '../components/Login/LoginBox'
-import LoginForm from '../components/Login/LoginForm'
 import LoginCta from '../components/Login/LoginCta'
 import { Link as RouterLink } from 'react-router-dom'
-import LoginBillboard from '../components/Login/LoginBillboard'
+import { useSignUp } from '../hooks/useSignUp'
 
 const components: {
   password: Icon
@@ -31,7 +31,7 @@ const components: {
   text: EyeClosed,
 }
 
-function Login() {
+function SignUp() {
   const errorFallback = {
     status: false,
     message: '',
@@ -51,14 +51,24 @@ function Login() {
   }
 
   const [user, setUser] = useState({
+    name: '',
     email: '',
     password: '',
   })
+
+  const handleName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUser({
+      name: event.target.value,
+      email: user.email,
+      password: user.password,
+    })
+  }
 
   const handleEmail = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setUser({
+      name: user.name,
       email: event.target.value,
       password: user.password,
     })
@@ -68,6 +78,7 @@ function Login() {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setUser({
+      name: user.name,
       email: user.email,
       password: event.target.value,
     })
@@ -82,13 +93,17 @@ function Login() {
 
   const Icon = components[type]
 
-  const { login, isPending } = useLogin()
+  const { signUp, isPending } = useSignUp()
 
-  const handleLogin = (event: React.FormEvent) => {
+  const handleSignUp = (event: React.FormEvent) => {
     event.preventDefault()
 
-    login(
-      { email: user.email, password: user.password },
+    signUp(
+      {
+        name: user.name,
+        email: user.email,
+        password: user.password,
+      },
       {
         onError: (err) => {
           handleError(err?.message)
@@ -99,12 +114,8 @@ function Login() {
 
   return (
     <>
-      <LoginBillboard>
-        <BaseImage src="./cover.png" alt="Shelf" />
-      </LoginBillboard>
-
       <LoginBox>
-        <LoginTitle as="h1">Faça login em sua conta</LoginTitle>
+        <LoginTitle as="h1">Crie sua conta</LoginTitle>
 
         {error.status && (
           <Alert
@@ -116,16 +127,25 @@ function Login() {
           />
         )}
 
-        <LoginForm onSubmit={handleLogin}>
+        <LoginForm onSubmit={handleSignUp}>
           <LoginForm.Fields>
             <TextInput
-              label="E-mail"
-              leading={<Envelope />}
-              name="email"
-              onChange={handleEmail}
-              placeholder="E-mail"
-              required
               type="text"
+              label="Nome"
+              placeholder="Nome"
+              leading={<User />}
+              required
+              onChange={handleName}
+              value={user.name}
+            />
+
+            <TextInput
+              type="email"
+              label="E-mail"
+              placeholder="E-mail"
+              leading={<Envelope />}
+              required
+              onChange={handleEmail}
               value={user.email}
             />
 
@@ -151,22 +171,24 @@ function Login() {
           <LoginForm.Actions>
             <ActionButton
               variant="primary"
-              text="Entrar"
+              text="Criar conta"
               size="medium"
               loading={isPending}
             />
 
             <LoginCta>
-              Não tem uma conta?
-              <Link as={RouterLink} to="/sign-up" size="small">
-                Crie uma agora
+              Já tem uma conta?
+              <Link as={RouterLink} to="/login" size="small">
+                Fazer login
               </Link>
             </LoginCta>
           </LoginForm.Actions>
         </LoginForm>
       </LoginBox>
+
+      <LoginBillboard></LoginBillboard>
     </>
   )
 }
 
-export default Login
+export default SignUp

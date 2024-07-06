@@ -1,49 +1,50 @@
-import { ActionButton, BaseImage, Dialog } from 'remaster-ui'
+import { ActionButton } from 'remaster-ui'
 import CollectionTitlebar from '../../components/Collections/CollectionTitlebar'
 import CollectionWrapper from '../../components/Collections/CollectionWrapper'
 import { Plus } from '@phosphor-icons/react'
 import { useState } from 'react'
+import AddTitleContext, {
+  PageModel,
+} from '../../contexts/Collections/AddTitleContext'
+import CollectionAdd from '../../features/Collections/CollectionAdd'
+import TitleType from '../../types/Title'
 
 function CollectionsMe() {
   const [visibility, setVisibility] = useState(false)
+  const [page, setPage] = useState<PageModel>('page-1')
+  const [titleData, setTitleData] = useState<TitleType | null>(null)
+
+  const value = {
+    page,
+    setPage,
+    setTitleData,
+    setVisibility,
+    titleData,
+    visibility,
+  }
 
   return (
-    <CollectionWrapper>
-      <Dialog
-        actions="stretch"
-        use-divider={false}
-        title="Dialog title"
-        visibility={visibility}
-        onDismiss={() => setVisibility(false)}
-      >
-        <BaseImage src="" ratio="1/1" alt="" />
+    <AddTitleContext.Provider value={value}>
+      <CollectionWrapper>
+        <CollectionAdd />
 
-        <ActionButton
-          size="small"
-          variant="tertiary"
-          text="Cancel"
-          onClick={() => setVisibility(false)}
-        />
+        <CollectionTitlebar>
+          <CollectionTitlebar.Title>
+            Minha coleção
+          </CollectionTitlebar.Title>
 
-        <ActionButton size="small" variant="primary" text="Main" />
-      </Dialog>
-
-      <CollectionTitlebar>
-        <CollectionTitlebar.Title>
-          Minha coleção
-        </CollectionTitlebar.Title>
-
-        <CollectionTitlebar.Tools>
-          <ActionButton
-            variant="primary"
-            size="small"
-            text="Adicionar"
-            leading={<Plus />}
-            onClick={() => setVisibility(true)}
-          />
-        </CollectionTitlebar.Tools>
-      </CollectionTitlebar>
-    </CollectionWrapper>
+          <CollectionTitlebar.Tools>
+            <ActionButton
+              variant="primary"
+              size="small"
+              text="Adicionar"
+              leading={<Plus />}
+              onClick={() => setVisibility(true)}
+            />
+          </CollectionTitlebar.Tools>
+        </CollectionTitlebar>
+      </CollectionWrapper>
+    </AddTitleContext.Provider>
   )
 }
 
