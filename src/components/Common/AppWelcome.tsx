@@ -8,11 +8,13 @@ import {
   ActionButton,
   Modal,
   SansSerif,
+  SvgSpinner,
 } from 'remaster-ui'
 import { styled } from 'goober'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { updateUserStatus } from '../../services/user'
+import WelcomeIllustration from '../../assets/images/welcome.png'
 
 const WelcomeModal = styled('div')`
   display: flex;
@@ -29,6 +31,7 @@ const ModalIllustration = styled('div')`
 `
 
 const ModalContent = styled('div')`
+  align-items: center;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -46,6 +49,7 @@ const ModalTitle = styled(SansSerif)`
   line-height: ${$size.type.lineHeight.title.sm};
   margin: 0;
   padding: 0;
+  width: 100%;
 `
 
 const ModalText = styled(SansSerif)`
@@ -62,6 +66,7 @@ const ModalActions = styled('div')`
   display: inherit;
   flex-direction: inherit;
   gap: ${$space.gap.lg};
+  width: 100%;
 `
 
 function AppWelcome() {
@@ -69,6 +74,7 @@ function AppWelcome() {
 
   const { isAuthenticated, user } = useUser()
 
+  const [loading, setLoading] = useState(false)
   const [visibility, setVisibility] = useState(false)
 
   useEffect(() => {
@@ -80,8 +86,16 @@ function AppWelcome() {
   }, [user])
 
   const handleDismiss = async (route: string) => {
+    setLoading(true)
+
+    const status = 'on'
+
     try {
-      await updateUserStatus('on')
+      await updateUserStatus(status)
+
+      user!.status = status
+
+      setVisibility(false)
 
       navigate(route)
     } catch (error) {
@@ -96,7 +110,9 @@ function AppWelcome() {
       onClickOutside={() => setVisibility(true)}
     >
       <WelcomeModal>
-        <ModalIllustration></ModalIllustration>
+        <ModalIllustration>
+          <img src={WelcomeIllustration} alt="Bem-vindo ao Shelf" />
+        </ModalIllustration>
 
         <ModalContent>
           <ModalTitle>Bem-vindo ao Shelf</ModalTitle>
@@ -106,21 +122,25 @@ function AppWelcome() {
             seguir suas coleções favoritas da aba Explorar
           </ModalText>
 
-          <ModalActions>
-            <ActionButton
-              size="medium"
-              variant="primary"
-              text="Começar minha coleção"
-              onClick={() => handleDismiss('/collections/me')}
-            />
+          {loading === false && (
+            <ModalActions>
+              <ActionButton
+                size="medium"
+                variant="primary"
+                text="Começar minha coleção"
+                onClick={() => handleDismiss('/collections/me')}
+              />
 
-            <ActionButton
-              size="medium"
-              variant="tertiary"
-              text="Explorar"
-              onClick={() => handleDismiss('/explore')}
-            />
-          </ModalActions>
+              <ActionButton
+                size="medium"
+                variant="tertiary"
+                text="Explorar"
+                onClick={() => handleDismiss('/explore')}
+              />
+            </ModalActions>
+          )}
+
+          {loading === true && <SvgSpinner />}
         </ModalContent>
       </WelcomeModal>
     </Modal>

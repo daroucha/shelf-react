@@ -1,3 +1,5 @@
+import UserCollection from './UserCollection'
+
 export default interface UserType {
   _id: string
   name: string
@@ -6,4 +8,5 @@ export default interface UserType {
   picture?: string
   bio?: string
   location?: string
+  userCollection?: UserCollection
 }
