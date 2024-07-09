@@ -25,6 +25,7 @@ import Login from './pages/Login'
 import './assets/styles/reset.css'
 import SignUp from './pages/SignUp'
 import ForgotPassword from './pages/ForgotPassword'
+import AppWelcome from './components/Common/AppWelcome'
 
 setup(React.createElement)
 
@@ -44,6 +45,8 @@ function App() {
       <AppToasts />
 
       <BrowserRouter>
+        <AppWelcome />
+
         <Routes>
           <Route index element={<Navigate replace to="explore" />} />
 

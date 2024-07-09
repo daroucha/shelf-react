@@ -7,6 +7,28 @@ import { getFirebaseToken, storage } from './firebase'
 import api from './api'
 import type { AxiosResponse } from 'axios'
 
+export const updateUserStatus = async (status: 'on' | 'off') => {
+  const token = await getFirebaseToken()
+
+  try {
+    const { data: response }: AxiosResponse = await api.put(
+      '/api/v1/auth/updatedetails',
+      {
+        status,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+
+    return response.data
+  } catch (error) {
+    throw new Error(error as string)
+  }
+}
+
 export const uploadUserAvatar = async (file: File) => {
   const token = await getFirebaseToken()
 
