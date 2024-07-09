@@ -146,6 +146,17 @@ function Login() {
                 />
               }
             />
+
+            <div>
+              <Link
+                as={RouterLink}
+                to="/forgot-password"
+                size="small"
+                trailing={true}
+              >
+                Esqueceu a senha?
+              </Link>
+            </div>
           </LoginForm.Fields>
 
           <LoginForm.Actions>

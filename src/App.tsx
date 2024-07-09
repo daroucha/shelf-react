@@ -24,6 +24,7 @@ import Login from './pages/Login'
 
 import './assets/styles/reset.css'
 import SignUp from './pages/SignUp'
+import ForgotPassword from './pages/ForgotPassword'
 
 setup(React.createElement)
 
@@ -50,6 +51,10 @@ function App() {
           <Route element={<UnAuthLayout />}>
             <Route path="login" element={<Login />} />
             <Route path="sign-up" element={<SignUp />} />
+            <Route
+              path="forgot-password"
+              element={<ForgotPassword />}
+            />
           </Route>
 
           {/* Authenticated Layout Routes */}

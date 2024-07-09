@@ -19,13 +19,22 @@ const FormActions = styled('div')`
   gap: ${$space.gap.lg};
 `
 
-interface PropsLoginForm {
-  children: React.ReactNode
-  onSubmit: (event: React.FormEvent) => void
+type PolymorphicAsProp<E extends React.ElementType> = {
+  as?: E
 }
 
-function LoginForm({ children, onSubmit }: PropsLoginForm) {
-  return <Form onSubmit={onSubmit}>{children}</Form>
+interface PropsLoginForm
+  extends PolymorphicAsProp<React.ElementType> {
+  children: React.ReactNode
+  onSubmit?: (event: React.FormEvent) => void
+}
+
+function LoginForm({ as, children, onSubmit }: PropsLoginForm) {
+  return (
+    <Form as={as} onSubmit={onSubmit}>
+      {children}
+    </Form>
+  )
 }
 
 LoginForm.Fields = FormFields
