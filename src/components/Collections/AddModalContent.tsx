@@ -39,6 +39,16 @@ const ContentTitle = styled(SansSerif)`
   padding: 0;
 `
 
+const ContentText = styled(SansSerif)`
+  color: ${$color.text.plain.secondary.light};
+  display: block;
+  font-size: ${$size.type.fontSize.text.md};
+  font-weight: ${$primitives.typography.fontWeight.sans.regular};
+  line-height: ${$size.type.lineHeight.text.md};
+  margin: 0;
+  padding: 0;
+`
+
 const ContentBody = styled('div')`
   display: flex;
   flex-direction: column;
@@ -65,6 +75,7 @@ function AddModalContent({ children }: PropsAddModalContent) {
 AddModalContent.Banner = Banner
 AddModalContent.Content = Content
 AddModalContent.Title = ContentTitle
+AddModalContent.Text = ContentText
 AddModalContent.Body = ContentBody
 AddModalContent.Action = ContentAction
 

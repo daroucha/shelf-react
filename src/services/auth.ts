@@ -4,6 +4,7 @@ import toast from 'react-hot-toast'
 import { auth, getFirebaseToken } from './firebase'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import type { UserCredential } from 'firebase/auth'
+import { ApiError } from '../types/Api'
 
 export const signUpUser = async (
   name: string,
@@ -46,8 +47,11 @@ export const getCurrentUser = async () => {
 
     return response.data
   } catch (error) {
-    const ApiError = error as AxiosError
-    toast(ApiError.message)
+    const err = error as AxiosError
+    const apiError = err.response?.data as ApiError
+
+    toast(apiError.error)
+
     return null
   }
 }

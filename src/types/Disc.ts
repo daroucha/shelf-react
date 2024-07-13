@@ -22,16 +22,18 @@ export type SubtitleType = {
 
 export type ExtraType = {
   title: string
-  duration?: string
+  duration?: number
 }
 
 export default interface DiscType {
-  _id: string
+  _id?: string
   title: string
-  type: 'bd' | 'dvd'
-  video: VideoType
-  audio: AudioType[]
-  subtitles: SubtitleType[]
+  externalId: string
+  type?: 'bd' | 'dvd'
+  video?: VideoType
+  audio?: AudioType[]
+  subtitles?: SubtitleType[]
   extras?: ExtraType[]
-  createdAt: Date
+  createdAt?: Date
+  status?: 'draft' | 'publish'
 }

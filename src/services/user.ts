@@ -5,7 +5,8 @@ import {
 } from 'firebase/storage'
 import { getFirebaseToken, storage } from './firebase'
 import api from './api'
-import type { AxiosResponse } from 'axios'
+import type { AxiosError, AxiosResponse } from 'axios'
+import { ApiError } from '../types/Api'
 
 export const updateUserStatus = async (status: 'on' | 'off') => {
   const token = await getFirebaseToken()
@@ -25,7 +26,10 @@ export const updateUserStatus = async (status: 'on' | 'off') => {
 
     return response.data
   } catch (error) {
-    throw new Error(error as string)
+    const err = error as AxiosError
+    const apiError = err.response?.data as ApiError
+
+    throw new Error(apiError.error)
   }
 }
 
@@ -52,7 +56,10 @@ export const uploadUserAvatar = async (file: File) => {
 
     return downloadUrl
   } catch (error) {
-    throw new Error(error as string)
+    const err = error as AxiosError
+    const apiError = err.response?.data as ApiError
+
+    throw new Error(apiError.error)
   }
 }
 
@@ -80,6 +87,9 @@ export const updateUserDetails = async (
 
     return response.data
   } catch (error) {
-    throw new Error(error as string)
+    const err = error as AxiosError
+    const apiError = err.response?.data as ApiError
+
+    throw new Error(apiError.error)
   }
 }

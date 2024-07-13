@@ -1,10 +1,16 @@
 import { createContext, useContext } from 'react'
-import TitleType from '../../types/Title'
+import type TitleType from '../../types/Title'
+import type DiscType from '../../types/Disc'
 
 export type PageModel = 'page-1' | 'page-2' | 'page-3'
 
 interface AddTitleContextModel {
+  cancelModal: () => void
+  disabled: boolean
+  discData: DiscType[] | null
   page: PageModel
+  setDisabled: (disabled: boolean) => void
+  setDiscData: (disc: DiscType[]) => void
   setPage: (page: PageModel) => void
   setTitleData: (title: TitleType) => void
   setVisibility: (visibility: boolean) => void
@@ -13,7 +19,12 @@ interface AddTitleContextModel {
 }
 
 const initialState: AddTitleContextModel = {
+  cancelModal: () => {},
+  disabled: true,
+  discData: null,
   page: 'page-1',
+  setDisabled: () => {},
+  setDiscData: () => {},
   setPage: () => {},
   setTitleData: () => {},
   setVisibility: () => {},

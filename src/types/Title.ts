@@ -1,7 +1,7 @@
 import DiscType from './Disc'
 import UserType from './User'
 
-export default interface TitleType {
+export type PublicTitleType = {
   _id?: string
   name: string
   year: Date
@@ -19,4 +19,12 @@ export default interface TitleType {
     | 'digiduplo'
     | 'digibook'
     | 'elite'
+}
+
+export default interface TitleType {
+  _id?: string
+  title: PublicTitleType
+  cover?: string
+  banner?: string
+  pictures?: []
 }
